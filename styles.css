@@ -2788,12 +2788,12 @@ body.modal-open {
 
   .topbar {
     bottom: max(8px, calc(var(--safe-bottom) + 4px));
-    max-width: 210px;
+    max-width: 278px;
   }
 
   .brand {
     gap: 7px;
-    padding: 6px 8px;
+    padding: 6px 9px;
   }
 
   .brand-mark {
@@ -2803,17 +2803,25 @@ body.modal-open {
     font-size: 0.78rem;
   }
 
-  .brand-heading-row {
-    display: block;
-  }
-
   .brand-name {
     font-size: 0.74rem;
   }
 
-  .brand-credit--inline,
+  .brand-heading-row {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .brand-credit--inline {
+    display: inline;
+    font-size: 0.56rem;
+    line-height: 1.1;
+  }
+
   .brand-subtitle {
-    display: none;
+    display: block;
+    font-size: 0.54rem;
+    line-height: 1.12;
   }
 
   .map-search-floating {
@@ -2936,7 +2944,7 @@ body.modal-open {
     max-height: calc(100dvh - 62px - var(--safe-top) - var(--safe-bottom));
     border-radius: 16px;
     padding: 10px 8px 12px;
-    overflow: hidden;
+    overflow: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
