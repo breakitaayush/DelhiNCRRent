@@ -2699,6 +2699,26 @@ body.modal-open {
 }
 
 @media (max-width: 520px) {
+  .page-shell,
+  .map-section,
+  .immersive-map-shell,
+  .map-canvas,
+  .map-canvas--immersive,
+  .real-map {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .map-section,
+  .immersive-map-shell,
+  .map-canvas,
+  .map-canvas--immersive {
+    margin: 0;
+    padding: 0;
+    min-height: 100dvh;
+    height: 100dvh;
+  }
+
   .bg-orb {
     display: none;
   }
@@ -2798,20 +2818,20 @@ body.modal-open {
 
   .map-search-floating {
     top: calc(max(8px, var(--safe-top)) + 10px);
-    left: max(10px, calc(var(--safe-left) + 10px));
-    right: max(10px, calc(var(--safe-right) + 10px));
+    left: max(6px, calc(var(--safe-left) + 6px));
+    right: max(6px, calc(var(--safe-right) + 6px));
   }
 
   .map-search-shell {
-    padding: 5px;
-    border-radius: 16px;
+    padding: 4px;
+    border-radius: 14px;
   }
 
   .search-input--floating input {
-    min-height: 42px;
-    padding: 0 12px;
-    border-radius: 13px;
-    font-size: 0.9rem;
+    min-height: 40px;
+    padding: 0 10px;
+    border-radius: 12px;
+    font-size: 0.86rem;
   }
 
   .map-search-suggestions {
@@ -2835,9 +2855,9 @@ body.modal-open {
 
   .map-action-row {
     margin-top: 6px;
-    padding: 6px;
-    border-radius: 16px;
-    gap: 6px;
+    padding: 5px;
+    border-radius: 14px;
+    gap: 5px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
@@ -2846,17 +2866,17 @@ body.modal-open {
   .map-filter-button,
   .map-add-button,
   .map-stats-pill {
-    min-height: 36px;
+    min-height: 34px;
     width: 100%;
     min-width: 0;
-    padding: 0 10px;
-    font-size: 0.84rem;
+    padding: 0 8px;
+    font-size: 0.78rem;
     justify-content: center;
   }
 
   .map-button-icon {
-    width: 14px;
-    font-size: 0.82rem;
+    width: 12px;
+    font-size: 0.74rem;
   }
 
   .map-stats-pill {
@@ -2864,12 +2884,12 @@ body.modal-open {
   }
 
   .filters-drawer {
-    left: max(8px, calc(var(--safe-left) + 8px));
-    right: max(8px, calc(var(--safe-right) + 8px));
-    bottom: calc(max(8px, var(--safe-bottom)) + 54px);
-    max-height: min(calc(100dvh - 118px - var(--safe-top) - var(--safe-bottom)), 58dvh);
-    padding: 14px;
-    border-radius: 20px;
+    left: max(6px, calc(var(--safe-left) + 6px));
+    right: max(6px, calc(var(--safe-right) + 6px));
+    bottom: calc(max(6px, var(--safe-bottom)) + 50px);
+    max-height: min(calc(100dvh - 108px - var(--safe-top) - var(--safe-bottom)), 56dvh);
+    padding: 10px;
+    border-radius: 16px;
   }
 
   .panel-head h3,
@@ -2887,9 +2907,9 @@ body.modal-open {
   }
 
   .chip {
-    min-height: 32px;
-    padding: 7px 10px;
-    font-size: 0.8rem;
+    min-height: 30px;
+    padding: 6px 8px;
+    font-size: 0.75rem;
   }
 
   .layer-toggle-row {
@@ -2898,10 +2918,10 @@ body.modal-open {
   }
 
   .toggle-row--compact {
-    min-height: 34px;
+    min-height: 32px;
     justify-content: flex-start;
-    padding: 7px 10px;
-    font-size: 0.82rem;
+    padding: 6px 8px;
+    font-size: 0.76rem;
   }
 
   .map-detail--floating,
@@ -2909,13 +2929,13 @@ body.modal-open {
   .legal-modal,
   .start-guide,
   .live-stats-modal {
-    left: max(8px, calc(var(--safe-left) + 8px));
-    right: max(8px, calc(var(--safe-right) + 8px));
+    left: max(4px, calc(var(--safe-left) + 4px));
+    right: max(4px, calc(var(--safe-right) + 4px));
     width: auto;
-    bottom: max(8px, calc(var(--safe-bottom) + 8px));
-    max-height: calc(100dvh - 86px - var(--safe-top) - var(--safe-bottom));
-    border-radius: 20px;
-    padding: 14px 12px 16px;
+    bottom: max(4px, calc(var(--safe-bottom) + 4px));
+    max-height: calc(100dvh - 62px - var(--safe-top) - var(--safe-bottom));
+    border-radius: 16px;
+    padding: 10px 8px 12px;
     overflow: hidden;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -2923,8 +2943,8 @@ body.modal-open {
   }
 
   .map-detail--floating {
-    bottom: calc(max(8px, var(--safe-bottom)) + 54px);
-    max-height: calc(100dvh - 128px - var(--safe-top) - var(--safe-bottom));
+    bottom: calc(max(4px, var(--safe-bottom)) + 48px);
+    max-height: calc(100dvh - 104px - var(--safe-top) - var(--safe-bottom));
   }
 
   .add-pin-section__head,
@@ -2942,7 +2962,7 @@ body.modal-open {
   .live-stats-modal h2,
   .legal-modal__head h2,
   .start-guide__head h2 {
-    font-size: 1.35rem;
+    font-size: 1.08rem;
     line-height: 1.08;
   }
 
@@ -2966,8 +2986,8 @@ body.modal-open {
   .flow-item,
   .success-panel,
   .live-stat-card {
-    padding: 14px;
-    border-radius: 16px;
+    padding: 10px;
+    border-radius: 12px;
   }
 
   .start-guide__card h3 {
@@ -2988,7 +3008,7 @@ body.modal-open {
   .learn-card li,
   .flow-item p,
   .success-panel p {
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     line-height: 1.5;
   }
 
@@ -3010,63 +3030,64 @@ body.modal-open {
   .smart-form input,
   .smart-form select,
   .smart-form textarea {
-    padding: 12px;
-    border-radius: 12px;
+    padding: 10px 9px;
+    border-radius: 10px;
   }
 
   .map-detail__price {
-    font-size: 1.18rem;
-    margin-bottom: 6px;
+    font-size: 0.98rem;
+    margin-bottom: 4px;
   }
 
   .map-detail__title {
-    font-size: 0.94rem;
+    font-size: 0.82rem;
   }
 
   .map-detail__chips {
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   .map-detail__chip {
-    padding: 5px 8px;
-    font-size: 0.68rem;
+    padding: 3px 6px;
+    font-size: 0.56rem;
   }
 
   .map-detail__meta-row,
   .map-detail__section {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 6px;
+    padding-top: 6px;
   }
 
   .map-detail__facts {
-    margin-top: 10px;
-    padding-left: 16px;
-    font-size: 0.82rem;
+    margin-top: 6px;
+    padding-left: 12px;
+    font-size: 0.7rem;
   }
 
   .map-detail__comment-box input,
   .map-detail__interest-box input {
-    padding: 9px 10px;
-    border-radius: 12px;
+    padding: 7px 8px;
+    border-radius: 10px;
   }
 
   .map-icon-button {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
   }
 
   .map-point {
-    min-width: 68px;
-    padding: 5px 6px;
-    border-radius: 11px;
+    min-width: 54px;
+    max-width: 70px;
+    padding: 3px 4px;
+    border-radius: 9px;
   }
 
   .map-point strong {
-    font-size: 0.66rem;
+    font-size: 0.52rem;
   }
 
   .map-point span {
-    font-size: 0.48rem;
+    font-size: 0.38rem;
   }
 
   .map-detail__interest-box {
@@ -3074,8 +3095,9 @@ body.modal-open {
   }
 
   .map-detail__interest-box .button {
-    min-height: 42px;
-    font-size: 0.82rem;
-    white-space: nowrap;
+    min-height: 34px;
+    font-size: 0.68rem;
+    white-space: normal;
+    line-height: 1.05;
   }
 }
