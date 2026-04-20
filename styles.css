@@ -2788,13 +2788,20 @@ body.modal-open {
 
   .topbar {
     bottom: max(8px, calc(var(--safe-bottom) + 4px));
-    max-width: 278px;
+    left: 50%;
+    right: auto;
+    width: auto;
+    max-width: none;
+    transform: translateX(-50%);
     justify-content: center;
   }
 
   .brand {
     gap: 7px;
     padding: 6px 9px;
+    width: max-content;
+    max-width: calc(100vw - 24px - var(--safe-left) - var(--safe-right));
+    margin: 0 auto;
     justify-content: center;
     text-align: center;
   }
