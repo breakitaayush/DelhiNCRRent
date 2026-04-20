@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09101b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Delhi Rent</title>
+    <meta
+      name="description"
+      content="Delhi NCR rent map with real pins, flat lets, flat hunts, and fast area search."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb bg-orb--one"></div>
+    <div class="bg-orb bg-orb--two"></div>
+
+    <section class="entry-screen" data-entry-screen>
+      <div class="entry-screen__backdrop"></div>
+      <div class="entry-card">
+        <h1>Rent truth, from the neighbourhood</h1>
+
+        <article class="info-panel info-panel--green">
+          <p class="eyebrow">REAL RENTS. REAL POCKETS. <span>📍</span></p>
+          <p class="body-copy">
+            See what people pay in an area before you say yes to a place.
+          </p>
+        </article>
+
+        <div class="share-block">
+          <h2>Spread the map</h2>
+          <article class="info-panel info-panel--amber">
+            <div class="share-heading-row">
+              <p class="eyebrow eyebrow--amber">MESSAGE TO SHARE</p>
+              <button
+                class="copy-button"
+                type="button"
+                aria-label="Copy message"
+                title="Copy message"
+                data-copy-feedback="Copy message"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M9 9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z"
+                  />
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <p id="share-message" class="body-copy body-copy--warm">
+              Delhi renters are pinning real rents. Check the area before you commit. 👉 www.delhirent.in
+            </p>
+          </article>
+        </div>
+
+        <p class="entry-legal">
+          Enter the map and you agree to our
+          <button class="entry-legal__link" type="button" data-open-legal="privacy">Privacy Policy</button>
+          and
+          <button class="entry-legal__link" type="button" data-open-legal="terms">Terms of Use</button>.
+        </p>
+
+        <div class="action-stack">
+          <a
+            class="button button--whatsapp"
+            href="https://wa.me/?text=Delhi%20renters%20are%20pinning%20real%20rents.%20Check%20the%20area%20before%20you%20commit.%20%E2%80%94%20www.delhirent.in"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Share on WhatsApp
+          </a>
+          <button class="button button--primary" type="button" data-start-app onclick="window.startDelhiRentApp && window.startDelhiRentApp()">
+            Open the map
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <header class="topbar" hidden data-app-shell>
+      <div class="brand">
+        <span class="brand-mark">DR</span>
+        <div>
+          <div class="brand-heading-row">
+            <p class="brand-name">Delhi Rent</p>
+            <p class="brand-credit brand-credit--inline">
+              Made by
+              <a
+                href="https://www.linkedin.com/in/aayush-paliwal/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Aayush Paliwal
+              </a>
+            </p>
+          </div>
+          <p class="brand-subtitle">Real rent context for Delhi NCR.</p>
+        </div>
+      </div>
+
+      <nav class="topnav" aria-label="Primary"></nav>
+    </header>
+
+    <main class="page-shell" data-app-shell>
+      <section class="section map-section" id="map-experience">
+        <div class="immersive-map-shell">
+          <div class="map-canvas map-canvas--immersive" data-map-canvas>
+            <div class="real-map" data-real-map></div>
+            <div class="map-fallback-grid">
+              <div class="canvas-grid"></div>
+              <span class="metro-line metro-line--yellow"></span>
+              <span class="metro-line metro-line--magenta"></span>
+              <span class="metro-line metro-line--blue"></span>
+            </div>
+            <div data-points-layer></div>
+
+            <div class="map-search-floating">
+              <div class="map-search-shell">
+                <label class="search-input search-input--floating">
+                  <input
+                    type="text"
+                    placeholder="Search area, ZIP, society, or place"
+                    data-zip-search
+                    autocomplete="off"
+                  />
+                </label>
+              </div>
+              <div class="map-search-suggestions" hidden data-search-suggestions></div>
+              <div class="map-action-row">
+                <button class="map-filter-button" type="button" data-toggle-filters>
+                  <span class="map-button-icon" aria-hidden="true">≣</span>
+                  <span>Filter</span>
+                </button>
+                <button class="map-filter-button" type="button" data-jump-flat-hunt>
+                  <span class="map-button-icon" aria-hidden="true">⌕</span>
+                  <span>Flat Hunt</span>
+                </button>
+                <button class="map-filter-button" type="button" data-jump-flat-let>
+                  <span class="map-button-icon" aria-hidden="true">⌂</span>
+                  <span>Flat Let</span>
+                </button>
+                <button class="map-add-button" type="button" data-jump-add-pin>
+                  <span class="map-button-icon" aria-hidden="true">＋</span>
+                  <span>Add Pin</span>
+                </button>
+                <button class="map-stats-pill" type="button" data-open-live-stats>
+                  <span data-stat-visible-cta>5 pins</span>
+                  <span class="map-stats-pill__divider">|</span>
+                  <span data-stat-total-rent>₹1.2L rent</span>
+                </button>
+              </div>
+            </div>
+
+            <aside class="filters-drawer" data-filters-drawer hidden>
+              <div class="panel-head">
+                <h3>Filters</h3>
+                <div class="filters-head-actions">
+                  <button type="button" data-clear-filters>Clear all</button>
+                  <button class="map-icon-button" type="button" aria-label="Close filters" data-close-filters>
+                    ×
+                  </button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <p>Layers</p>
+                <div class="layer-toggle-row">
+                  <label class="toggle-row toggle-row--compact">
+                    <input type="checkbox" data-layer="pins" checked />
+                    <span>Pins</span>
+                  </label>
+                  <label class="toggle-row toggle-row--compact">
+                    <input type="checkbox" data-layer="flatLets" checked />
+                    <span>Flat lets</span>
+                  </label>
+                  <label class="toggle-row toggle-row--compact">
+                    <input type="checkbox" data-layer="flatHunts" checked />
+                    <span>Flat hunts</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <p>Area / locality</p>
+                <div class="chip-row" data-filter-group="area">
+                  <button class="chip chip--active" type="button" data-area="all">All NCR</button>
+                  <button class="chip" type="button" data-area="new-delhi">New Delhi</button>
+                  <button class="chip" type="button" data-area="old-delhi">Old Delhi</button>
+                  <button class="chip" type="button" data-area="gurgaon">Gurgaon</button>
+                  <button class="chip" type="button" data-area="noida">Noida</button>
+                  <button class="chip" type="button" data-area="greater-noida">Greater Noida</button>
+                  <button class="chip" type="button" data-area="faridabad">Faridabad</button>
+                  <button class="chip" type="button" data-area="ghaziabad">Ghaziabad</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <p>BHK</p>
+                <div class="chip-row" data-filter-group="bhk">
+                  <button class="chip chip--active" type="button" data-bhk="all">Any</button>
+                  <button class="chip" type="button" data-bhk="1">1</button>
+                  <button class="chip" type="button" data-bhk="2">2</button>
+                  <button class="chip" type="button" data-bhk="3">3</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <p>Home type</p>
+                <div class="chip-row" data-filter-group="type">
+                  <button class="chip chip--active" type="button" data-type="all">All</button>
+                  <button class="chip" type="button" data-type="whole-flat">Whole flat</button>
+                  <button class="chip" type="button" data-type="room">Room</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <p>Signals</p>
+                <label class="toggle-row">
+                  <input type="checkbox" data-signal="metro" />
+                  <span>Near metro</span>
+                </label>
+                <label class="toggle-row">
+                  <input type="checkbox" data-signal="furnished" />
+                  <span>Furnished only</span>
+                </label>
+                <label class="toggle-row">
+                  <input type="checkbox" data-signal="verified" />
+                  <span>Verified community score</span>
+                </label>
+              </div>
+            </aside>
+
+            <article class="map-detail map-detail--floating" hidden data-detail-panel>
+              <div class="map-detail__topbar">
+                <div>
+                  <p class="section-kicker">Rent</p>
+                  <p class="map-detail__price" data-detail-price></p>
+                </div>
+                <div class="map-detail__actions">
+                  <button class="map-icon-button" type="button" aria-label="Share" title="Share" data-detail-share>↗</button>
+                  <button class="map-icon-button" type="button" aria-label="Close" data-close-detail>×</button>
+                </div>
+              </div>
+
+              <p class="map-detail__title" data-detail-title></p>
+              <p class="map-detail__subtitle" data-detail-area></p>
+
+              <div class="map-detail__chips" data-detail-chips></div>
+
+              <div class="map-detail__meta-row" data-detail-meta></div>
+              <ul class="map-detail__facts" data-detail-facts></ul>
+
+              <div class="map-detail__section">
+                <p class="section-kicker">Community signal</p>
+                <div class="map-detail__rating-row">
+                  <span class="detail-score" data-detail-score></span>
+                  <span class="map-detail__chevron">›</span>
+                </div>
+              </div>
+
+              <div class="map-detail__section">
+                <p class="section-kicker">Comments</p>
+                <p class="map-detail__comment-placeholder">
+                  No notes yet. Add one after a visit.
+                </p>
+                <div class="map-detail__comment-box">
+                  <input type="text" placeholder="Add a comment..." />
+                  <button class="button button--primary button--small" type="button">Post</button>
+                </div>
+              </div>
+
+              <div class="map-detail__section map-detail__interest" hidden data-detail-interest>
+                <p class="section-kicker" data-detail-interest-kicker>Interested</p>
+                <p class="map-detail__interest-copy" data-detail-interest-copy>
+                  Leave your email and we will send the other side's contact details there.
+                </p>
+                <div class="map-detail__interest-box">
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    data-detail-interest-email
+                  />
+                  <button
+                    class="button button--primary button--small"
+                    type="button"
+                    data-detail-interest-button
+                  >
+                    I’m interested
+                  </button>
+                </div>
+                <p class="map-detail__interest-feedback" hidden data-detail-interest-feedback></p>
+              </div>
+
+              <div class="map-detail__footer">
+                <span class="map-detail__privacy">Anonymous map entry</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="section workflow-section" id="flat-hunt">
+        <div class="section-copy">
+          <p class="section-kicker">Three live flows</p>
+          <h2>Browse, post, or search from one map</h2>
+          <p>
+            Pick the flow you need. The form changes with it.
+          </p>
+        </div>
+
+        <div class="workflow-layout">
+          <aside class="workflow-nav" data-workflow-nav>
+            <button class="workflow-tab workflow-tab--active" type="button" data-flow="browse">
+              <span>Browse</span>
+              <small>Scan an area before you make calls</small>
+            </button>
+            <button class="workflow-tab" type="button" data-flow="list">
+              <span>I have a flat</span>
+              <small>Post a room or whole flat</small>
+            </button>
+            <button class="workflow-tab" type="button" data-flow="seek">
+              <span>I’m looking for a flat</span>
+              <small>Show what you want and where</small>
+            </button>
+          </aside>
+
+          <div class="workflow-stage">
+            <section class="flow-panel flow-panel--active" data-flow-panel="browse">
+              <div class="flow-header">
+                <p class="section-kicker">Browse first</p>
+                <h3>Read the area before you chase a listing</h3>
+              </div>
+              <div class="flow-list">
+                <article class="flow-item">
+                  <strong>1. Start with the area</strong>
+                  <p>Search the pocket you actually want to live in.</p>
+                </article>
+                <article class="flow-item">
+                  <strong>2. Compare rent in context</strong>
+                  <p>Pins, lets, and hunts make price, supply, and demand visible together.</p>
+                </article>
+                <article class="flow-item">
+                  <strong>3. Open details before you call</strong>
+                  <p>You get the basics fast: rent, BHK, furnishing, gated, metro, and notes.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="flow-panel" data-flow-panel="list">
+              <div class="flow-header">
+                <p class="section-kicker">Post supply</p>
+                <h3>List a whole flat or just one room</h3>
+              </div>
+
+              <form class="smart-form" data-form="list">
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>I want to</span>
+                    <select name="listingIntent">
+                      <option value="whole-flat">Rent out the whole flat</option>
+                      <option value="room">Find a flatmate for a room</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Area</span>
+                    <select name="area">
+                      <option>South Delhi</option>
+                      <option>Dwarka</option>
+                      <option>East Delhi</option>
+                      <option>Gurgaon edge</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Rent</span>
+                    <input name="rent" type="number" placeholder="28000" />
+                  </label>
+                  <label>
+                    <span>BHK</span>
+                    <select name="bhk">
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Available from</span>
+                    <select name="availability">
+                      <option>ASAP</option>
+                      <option>Next month</option>
+                      <option>Flexible</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Building / society</span>
+                    <input name="building" type="text" placeholder="Green Park Apartments" />
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="you@example.com" />
+                  </label>
+                </div>
+
+                <label>
+                  <span>Quick note</span>
+                  <textarea name="note" rows="4" placeholder="Quiet lane, 8-minute walk to metro, owner responsive."></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">Preview flat let</button>
+                </div>
+              </form>
+
+              <article class="success-panel" hidden data-success="list"></article>
+            </section>
+
+            <section class="flow-panel" data-flow-panel="seek">
+              <div class="flow-header">
+                <p class="section-kicker">Post demand</p>
+                <h3>Show what you want and where you want it</h3>
+              </div>
+
+              <form class="smart-form" data-form="seek">
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>I’m looking for</span>
+                    <select name="need">
+                      <option value="whole-flat">Whole flat</option>
+                      <option value="room">Room in a flat</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Preferred area</span>
+                    <select name="area">
+                      <option>South Delhi</option>
+                      <option>Dwarka</option>
+                      <option>East Delhi</option>
+                      <option>Gurgaon edge</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Budget per month</span>
+                    <input name="budget" type="number" placeholder="18000" />
+                  </label>
+                  <label>
+                    <span>BHK preference</span>
+                    <select name="bhk">
+                      <option>Any</option>
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Move-in timeline</span>
+                    <select name="timeline">
+                      <option>ASAP</option>
+                      <option>Next month</option>
+                      <option>Flexible</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Flatmate preference</span>
+                    <select name="flatmate">
+                      <option>No preference</option>
+                      <option>Non-smoker preferred</option>
+                      <option>Veg only</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="you@example.com" />
+                  </label>
+                </div>
+
+                <label>
+                  <span>Quick note</span>
+                  <textarea name="note" rows="4" placeholder="Need metro access, daylight, and not too much broker noise."></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">Preview flat hunt</button>
+                </div>
+              </form>
+
+              <article class="success-panel" hidden data-success="seek"></article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <div class="add-pin-backdrop" hidden data-add-pin-backdrop></div>
+
+      <section class="section add-pin-section" id="add-pin" data-add-pin-section>
+        <div class="section-copy">
+          <div class="add-pin-section__head">
+            <div>
+              <p class="section-kicker" data-contribute-kicker>Add a pin</p>
+              <h2 data-contribute-title>Share what you pay where you live</h2>
+              <p>
+                Pick one flow: post a rent pin, a flat let, or a flat hunt.
+              </p>
+            </div>
+            <button class="map-icon-button" type="button" aria-label="Close add pin" data-close-add-pin>
+              ×
+            </button>
+          </div>
+        </div>
+
+        <div class="workflow-layout">
+          <aside class="workflow-nav add-pin-help">
+            <div class="contribute-help-panel contribute-help-panel--active" data-contribute-help="add-pin">
+              <article class="flow-item">
+                <strong>What goes in</strong>
+                <p>Area, ZIP, rent, BHK, furnishing, society details, and key amenities.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Why it helps</strong>
+                <p>More real rent pins means better price sense for the next renter.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Privacy</strong>
+                <p>Email and phone stay private. The public map stays approximate.</p>
+              </article>
+            </div>
+
+            <div class="contribute-help-panel" data-contribute-help="flat-hunt">
+              <article class="flow-item">
+                <strong>What goes in</strong>
+                <p>Budget, target area, move-in timeline, home type, and must-have filters.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Why it helps</strong>
+                <p>Hunts show real demand, not just available inventory.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Privacy</strong>
+                <p>Your preferences can show on the map without exposing your contact details.</p>
+              </article>
+            </div>
+
+            <div class="contribute-help-panel" data-contribute-help="flat-let">
+              <article class="flow-item">
+                <strong>What goes in</strong>
+                <p>Area, rent, home type, furnishing, move-in date, and listing basics.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Why it helps</strong>
+                <p>Lets show live supply on the same map where people compare rents.</p>
+              </article>
+              <article class="flow-item">
+                <strong>Privacy</strong>
+                <p>Map details stay light. Contact stays private until you decide otherwise.</p>
+              </article>
+            </div>
+          </aside>
+
+          <div class="workflow-stage">
+            <section class="contribute-panel contribute-panel--active" data-contribute-panel="add-pin">
+              <form class="smart-form" data-form="add-pin">
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>ZIP code</span>
+                    <input name="zip" type="text" placeholder="110017" required />
+                  </label>
+                  <label>
+                    <span>Area / neighbourhood</span>
+                    <input name="area" type="text" placeholder="Malviya Nagar" required />
+                  </label>
+                  <label>
+                    <span>Home type</span>
+                    <select name="listingType">
+                      <option value="whole-flat">Whole flat</option>
+                      <option value="room">A room in a shared flat</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Rent I pay</span>
+                    <input name="rent" type="number" placeholder="28000" required />
+                  </label>
+                  <label>
+                    <span>BHK</span>
+                    <select name="bhk" required>
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Maintenance</span>
+                    <select name="maintenance">
+                      <option>Included</option>
+                      <option>Extra</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Furnishing</span>
+                    <select name="furnishing" required>
+                      <option>Furnished</option>
+                      <option selected>Unfurnished</option>
+                      <option>Semi-furnished</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Gated society</span>
+                    <select name="gated" required>
+                      <option>Gated</option>
+                      <option selected>Not gated</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Deposit paid</span>
+                    <input name="deposit" type="text" placeholder="2 months" />
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Building / society name</span>
+                    <input name="building" type="text" placeholder="Green Park Apartments" />
+                  </label>
+                  <label>
+                    <span>Floor</span>
+                    <input name="floor" type="text" placeholder="3rd floor" />
+                  </label>
+                  <label>
+                    <span>Move-in year</span>
+                    <input name="moveInYear" type="text" placeholder="2024" />
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Nearest metro</span>
+                    <select name="metroLine">
+                      <option>Yellow Line</option>
+                      <option>Blue Line</option>
+                      <option>Aqua Line</option>
+                      <option>Magenta Line</option>
+                      <option>Pink Line</option>
+                      <option>Violet Line</option>
+                      <option>No nearby metro</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Location precision</span>
+                    <select name="locationPrecision">
+                      <option>Area only</option>
+                      <option>Building cluster</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Bathroom count</span>
+                    <select name="bathrooms">
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                      <option>4+</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Parking</span>
+                    <select name="parking">
+                      <option>None</option>
+                      <option>Bike</option>
+                      <option selected>Car + Bike</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Power backup</span>
+                    <select name="powerBackup">
+                      <option>Yes</option>
+                      <option selected>No</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Pet friendly</span>
+                    <select name="petFriendly">
+                      <option>Yes</option>
+                      <option selected>No</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Lift</span>
+                    <select name="lift">
+                      <option>Yes</option>
+                      <option selected>No</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Gym / clubhouse</span>
+                    <select name="gym">
+                      <option>Yes</option>
+                      <option selected>No</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Pool</span>
+                    <select name="pool">
+                      <option>Yes</option>
+                      <option selected>No</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="you@example.com" />
+                  </label>
+                  <label>
+                    <span>Phone number</span>
+                    <input name="phone" type="tel" placeholder="+91 98xxxxxx12" />
+                  </label>
+                </div>
+
+                <div class="location-picker-note" data-picked-location>
+                  Tap the map to attach an approximate location.
+                </div>
+
+                <input name="latitudeHint" type="hidden" />
+                <input name="longitudeHint" type="hidden" />
+
+                <label>
+                    <span>Good to know</span>
+                  <textarea
+                    name="note"
+                    rows="4"
+                    placeholder="Quiet lane, responsive owner, rent increased fast, 8-minute walk to metro, frequent power cuts, etc."
+                  ></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">Post rent pin</button>
+                </div>
+              </form>
+
+              <article class="success-panel" hidden data-success="add-pin"></article>
+            </section>
+
+            <section class="contribute-panel" data-contribute-panel="flat-hunt">
+              <form class="smart-form" data-form="flat-hunt">
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Area / ZIP</span>
+                    <input name="preferredArea" type="text" placeholder="Green Park or 110016" />
+                  </label>
+                  <label>
+                    <span>Need</span>
+                    <select name="needType">
+                      <option value="whole-flat">Whole flat</option>
+                      <option value="room">Room in a shared flat</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Budget</span>
+                    <input name="budget" type="number" placeholder="35000" required />
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>BHK preference</span>
+                    <select name="bhkPreference" required>
+                      <option>Any</option>
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Move-in</span>
+                    <select name="timeline">
+                      <option>ASAP</option>
+                      <option>Within 30 days</option>
+                      <option>Within 2 months</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Near metro</span>
+                    <select name="metroNeed">
+                      <option selected>Yes</option>
+                      <option>No</option>
+                      <option>Flexible</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Furnishing</span>
+                    <select name="furnishingNeed" required>
+                      <option>Furnished</option>
+                      <option>Semi-furnished</option>
+                      <option selected>No preference</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Gated</span>
+                    <select name="gatedNeed" required>
+                      <option>Must have</option>
+                      <option selected>No preference</option>
+                      <option>Not needed</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Parking</span>
+                    <select name="parkingNeed">
+                      <option selected>No</option>
+                      <option>Bike</option>
+                      <option>Car</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Pets</span>
+                    <select name="petNeed">
+                      <option>No preference</option>
+                      <option>Needed</option>
+                      <option>Not needed</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Lift</span>
+                    <select name="liftNeed">
+                      <option selected>No preference</option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Power backup</span>
+                    <select name="backupNeed">
+                      <option selected>No preference</option>
+                      <option>Needed</option>
+                      <option>Not needed</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="you@example.com" />
+                  </label>
+                  <label>
+                    <span>Phone number</span>
+                    <input name="phone" type="tel" placeholder="+91 98xxxxxx12" />
+                  </label>
+                </div>
+
+                <label>
+                    <span>Must-haves</span>
+                  <textarea
+                    name="note"
+                    rows="4"
+                    placeholder="Low broker noise, good sunlight, family-friendly lane, flatmate-safe area, easy metro commute, etc."
+                  ></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">Post flat hunt</button>
+                </div>
+              </form>
+
+              <article class="success-panel" hidden data-success="flat-hunt"></article>
+            </section>
+
+            <section class="contribute-panel" data-contribute-panel="flat-let">
+              <form class="smart-form" data-form="flat-let">
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Area / locality</span>
+                    <input name="area" type="text" placeholder="Malviya Nagar" required />
+                  </label>
+                  <label>
+                    <span>ZIP code</span>
+                    <input name="zip" type="text" placeholder="110017" required />
+                  </label>
+                  <label>
+                    <span>Home type</span>
+                    <select name="listingIntent">
+                      <option value="whole-flat">Whole flat</option>
+                      <option value="room">Room / flatmate</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Rent</span>
+                    <input name="rent" type="number" placeholder="32000" required />
+                  </label>
+                  <label>
+                    <span>BHK</span>
+                    <select name="bhk" required>
+                      <option>1</option>
+                      <option selected>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Available from</span>
+                    <select name="availableFrom">
+                      <option>ASAP</option>
+                      <option>Next month</option>
+                      <option>Flexible</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--three">
+                  <label>
+                    <span>Furnishing</span>
+                    <select name="furnishing" required>
+                      <option>Furnished</option>
+                      <option>Semi-furnished</option>
+                      <option selected>Unfurnished</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Gated society</span>
+                    <select name="gated" required>
+                      <option>Gated</option>
+                      <option selected>Not gated</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Nearest metro</span>
+                    <select name="metroLine">
+                      <option>Yellow Line</option>
+                      <option>Blue Line</option>
+                      <option>Aqua Line</option>
+                      <option>Magenta Line</option>
+                      <option>Pink Line</option>
+                      <option>Violet Line</option>
+                      <option>No nearby metro</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Building / society name</span>
+                    <input name="building" type="text" placeholder="Green Park Apartments" />
+                  </label>
+                  <label>
+                    <span>Deposit asked</span>
+                    <input name="deposit" type="text" placeholder="2 months" />
+                  </label>
+                </div>
+
+                <div class="field-grid field-grid--two">
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="you@example.com" />
+                  </label>
+                  <label>
+                    <span>Phone number</span>
+                    <input name="phone" type="tel" placeholder="+91 98xxxxxx12" />
+                  </label>
+                </div>
+
+                <label>
+                  <span>Listing note</span>
+                  <textarea
+                    name="note"
+                    rows="4"
+                    placeholder="Sunlit 2 BHK, owner listed directly, 6-minute walk to metro, family-friendly lane."
+                  ></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">Post flat let</button>
+                </div>
+              </form>
+
+              <article class="success-panel" hidden data-success="flat-let"></article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section learn-section" id="learn">
+        <div class="section-copy">
+          <p class="section-kicker">How it works</p>
+          <h2>Three simple ways to use Delhi Rent</h2>
+          <p>
+            Browse an area, post a place, or post what you need.
+          </p>
+        </div>
+
+        <div class="learn-cards">
+          <article class="learn-card">
+            <span class="learn-tag">Browse</span>
+            <h3>Check the area first</h3>
+            <ol>
+              <li>Open the map and move to the pocket you care about.</li>
+              <li>Filter by BHK, furnishing, and metro access.</li>
+              <li>Open pins before you book visits.</li>
+            </ol>
+          </article>
+
+          <article class="learn-card">
+            <span class="learn-tag">Flat Let</span>
+            <h3>Post a room or a whole flat</h3>
+            <ol>
+              <li>Add the area, rent, and availability.</li>
+              <li>Share the basics renters care about first.</li>
+              <li>Keep contact private.</li>
+            </ol>
+          </article>
+
+          <article class="learn-card">
+            <span class="learn-tag">Flat Hunt</span>
+            <h3>Show what you want</h3>
+            <ol>
+              <li>Set your area, budget, and home type.</li>
+              <li>Add the filters that matter to you.</li>
+              <li>Make demand visible on the map.</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div class="start-guide-backdrop" hidden data-start-guide>
+      <section class="start-guide" role="dialog" aria-modal="true" aria-labelledby="start-guide-title">
+        <div class="start-guide__head">
+          <div>
+            <p class="section-kicker">How it works</p>
+            <h2 id="start-guide-title">Four quick ways to use Delhi Rent</h2>
+          </div>
+          <button class="modal-close" type="button" aria-label="Close" data-close-start-guide>
+            ×
+          </button>
+        </div>
+
+        <div class="start-guide__grid">
+          <article class="learn-card start-guide__card">
+            <span class="learn-tag">Browse</span>
+            <h3>Read the area first</h3>
+            <ol>
+              <li>Search an area, ZIP, or society.</li>
+              <li>Use filters to narrow the map.</li>
+              <li>Use live stats and open pins before you message anyone.</li>
+            </ol>
+          </article>
+
+          <article class="learn-card start-guide__card">
+            <span class="learn-tag">Add Pin</span>
+            <h3>Share what you pay</h3>
+            <ol>
+              <li>Add the area, rent, and basics.</li>
+              <li>Keep the pin approximate.</li>
+              <li>Help the next renter price-check faster.</li>
+            </ol>
+          </article>
+
+          <article class="learn-card start-guide__card">
+            <span class="learn-tag">Flat Hunt</span>
+            <h3>Show what you want</h3>
+            <ol>
+              <li>Set area, budget, and move-in timing.</li>
+              <li>Add the filters you care about.</li>
+              <li>Tap interested when a flat let looks right.</li>
+            </ol>
+          </article>
+
+          <article class="learn-card start-guide__card">
+            <span class="learn-tag">Flat Let</span>
+            <h3>Post a place that is available</h3>
+            <ol>
+              <li>Add area, rent, and home type.</li>
+              <li>Share the useful basics.</li>
+              <li>Get interest from people already looking nearby.</li>
+            </ol>
+          </article>
+        </div>
+
+        <div class="start-guide__actions">
+          <button class="button button--primary" type="button" data-close-start-guide>
+            Got it, open the map
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" hidden data-modal>
+      <section class="learn-modal" role="dialog" aria-modal="true" aria-labelledby="learn-title">
+        <div class="learn-modal__head">
+          <div>
+            <p class="section-kicker">Guided onboarding</p>
+            <h2 id="learn-title">How Delhi Rent works</h2>
+          </div>
+          <button class="modal-close" type="button" aria-label="Close" data-close-learn>
+            ×
+          </button>
+        </div>
+
+        <div class="step-indicator">
+          <span class="step-dot step-dot--active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+
+        <div class="step-content">
+          <article class="step-screen step-screen--active">
+            <span class="learn-tag">Step 1</span>
+            <h3>Browse the map first</h3>
+            <p>
+              Start with the area. Filter the map. Open pins only when they look worth your time.
+            </p>
+            <ul>
+              <li>Pins show rent context.</li>
+              <li>Flat lets show supply.</li>
+              <li>Flat hunts show demand.</li>
+            </ul>
+          </article>
+
+          <article class="step-screen">
+            <span class="learn-tag">Step 2</span>
+            <h3>Pick your flow</h3>
+            <p>
+              The same map supports rent pins, flat lets, and flat hunts. Pick one and post only the basics people need.
+            </p>
+            <ul>
+              <li>Add Pin is for what you already pay.</li>
+              <li>Flat Let is for what is available now.</li>
+              <li>Flat Hunt is for what you are trying to find.</li>
+            </ul>
+          </article>
+
+          <article class="step-screen">
+            <span class="learn-tag">Step 3</span>
+            <h3>Keep the map useful</h3>
+            <p>
+              The map gets better when people post real numbers and short, useful notes.
+            </p>
+            <ul>
+              <li>Contact stays private.</li>
+              <li>Location stays approximate.</li>
+              <li>More real entries means better pricing context.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="learn-modal__actions">
+          <button class="button button--secondary button--small" type="button" data-prev-step>
+            Back
+          </button>
+          <button class="button button--primary button--small" type="button" data-next-step>
+            Next
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="legal-backdrop" hidden data-legal-modal>
+      <section class="legal-modal" role="dialog" aria-modal="true" aria-labelledby="legal-title">
+        <div class="legal-modal__head">
+          <div>
+            <p class="section-kicker">Legal</p>
+            <h2 id="legal-title">Delhi Rent policies</h2>
+          </div>
+          <button class="modal-close" type="button" aria-label="Close" data-close-legal>
+            ×
+          </button>
+        </div>
+
+        <div class="legal-tabs">
+          <button class="legal-tab legal-tab--active" type="button" data-legal-tab="privacy">
+            Privacy Policy
+          </button>
+          <button class="legal-tab" type="button" data-legal-tab="terms">
+            Terms of Use
+          </button>
+        </div>
+
+        <div class="legal-panel legal-panel--active" data-legal-panel="privacy">
+          <p>Delhi Rent collects map entries and usage signals, not public personal profiles.</p>
+          <h3>What we collect</h3>
+          <ul>
+            <li>`Add Pin` submissions may include area, ZIP code, listing type, BHK, monthly rent, furnishing, gated status, deposit text, building name, metro details, free-text notes, and approximate latitude/longitude hints.</li>
+            <li>Optional contact fields such as email address and phone number may be submitted with `Add Pin` entries.</li>
+            <li>If you use location-aware features like `Near you`, the browser may share approximate device location with your permission.</li>
+            <li>If you use sharing or copy actions, the site may invoke your browser clipboard or WhatsApp link handling.</li>
+          </ul>
+          <h3>Tools and services in use</h3>
+          <ul>
+            <li>Map rendering and reverse geocoding use Google Maps platform services when configured.</li>
+            <li>`Add Pin` data is stored in Supabase when Supabase is configured for the project.</li>
+            <li>Public map reads use the app’s configured frontend credentials and database access rules.</li>
+          </ul>
+          <h3>What stays private</h3>
+          <ul>
+            <li>Email addresses and phone numbers are intended to remain non-public and are not shown as part of the public map pin UI.</li>
+            <li>Exact addresses should not be submitted; the product is designed around approximate area-level map context.</li>
+            <li>Sensitive personal information should never be added to open-text fields.</li>
+          </ul>
+          <h3>How data is used today</h3>
+          <ul>
+            <li>To display public rent pins, search results, area-level context, and live stats based on visible map data.</li>
+            <li>To support approximate map pinning, reverse geocoding, and optional location-based stats.</li>
+            <li>To detect obvious duplicates, reduce spam, and support moderation states such as pending, approved, or flagged.</li>
+            <li>`Flat Hunt` and `Flat Let` entries can be stored and shown on the map when the project is configured correctly.</li>
+          </ul>
+        </div>
+
+        <div class="legal-panel" data-legal-panel="terms">
+          <p>Delhi Rent is a community map product. It is not a broker, landlord, or guarantee of quality or availability.</p>
+          <h3>Use of the platform</h3>
+          <ul>
+            <li>You may browse the map, search by area or ZIP, view public rent context, and submit pins, flat lets, and flat hunts.</li>
+            <li>You agree not to post false, abusive, manipulative, deceptive, or personally invasive information.</li>
+            <li>You agree not to upload exact addresses, doxxing material, or sensitive personal data in public or free-text fields.</li>
+          </ul>
+          <h3>Community submissions</h3>
+          <ul>
+            <li>Map information is user submitted and may be incomplete, outdated, unavailable, or inaccurate.</li>
+            <li>You are responsible for independently verifying any rent, availability, property quality, commute, amenities, or ownership claim before acting on it.</li>
+            <li>We may moderate, limit, hide, or remove content that appears duplicated, misleading, unsafe, abusive, or low quality.</li>
+          </ul>
+          <h3>Third-party services</h3>
+          <ul>
+            <li>The product may rely on third-party tools and infrastructure including Google Maps, Supabase, and browser/device features such as geolocation, clipboard, and external sharing links.</li>
+            <li>Availability, accuracy, and behavior of those services may change independently of Delhi Rent.</li>
+          </ul>
+          <h3>Liability and scope</h3>
+          <ul>
+            <li>Delhi Rent is offered as an informational and exploratory tool without guarantees.</li>
+            <li>We are not responsible for deals, disputes, fraud, losses, tenancy outcomes, or agreements that happen off-platform.</li>
+            <li>Continued use of the site means you accept these terms as they apply to the product in its current form.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <div class="live-stats-backdrop" hidden data-live-stats-backdrop>
+      <section
+        class="live-stats-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="live-stats-title"
+      >
+        <div class="live-stats-modal__head">
+          <div>
+            <p class="section-kicker">Live Stats</p>
+            <h2 id="live-stats-title">What the visible pins say right now</h2>
+            <p class="live-stats-modal__subcopy" data-live-stats-subcopy>
+              Live numbers from the pins on screen.
+            </p>
+          </div>
+          <button class="modal-close" type="button" aria-label="Close" data-close-live-stats>
+            ×
+          </button>
+        </div>
+
+        <div class="live-stats-toggle-row">
+          <button class="live-stats-pill live-stats-pill--active" type="button" data-live-mode="overall">
+            Overall
+          </button>
+          <button class="live-stats-pill" type="button" data-live-mode="nearby">
+            Near you
+          </button>
+        </div>
+
+        <p class="live-stats-helper" data-live-stats-helper>
+          Based on the pins in view right now.
+        </p>
+
+        <section class="live-stats-section">
+          <div class="live-stats-section__head">
+            <h3>Leaderboard</h3>
+            <span>Top visible rents by home size</span>
+          </div>
+          <div class="live-stats-list" data-live-leaderboard></div>
+        </section>
+
+        <section class="live-stats-section">
+          <div class="live-stats-section__head">
+            <h3>Average rents</h3>
+            <span>Grouped by BHK in the current view</span>
+          </div>
+          <div class="live-stats-list" data-live-averages></div>
+        </section>
+      </section>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
