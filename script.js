@@ -511,7 +511,7 @@ let searchSuggestionItems = [];
 let highlightedSuggestionIndex = -1;
 let searchDebounceTimer = null;
 let autocompleteSessionToken = null;
-const GROUPED_MARKER_EXPAND_ZOOM = 13.5;
+const GROUPED_MARKER_EXPAND_ZOOM = 14;
 let interestSubmissionPending = false;
 
 function rebuildPointsCollection() {
@@ -793,13 +793,13 @@ function buildScreenGroups(list, thresholdPx) {
   const groups = [];
 
   mappable.forEach((entry) => {
-    const matchingGroup = groups.find((group) =>
-      group.entries.some((candidate) => {
-        const dx = candidate.pixel.x - entry.pixel.x;
-        const dy = candidate.pixel.y - entry.pixel.y;
-        return Math.hypot(dx, dy) <= thresholdPx;
-      })
-    );
+    const matchingGroup = groups.find((group) => {
+      const centerX = group.entries.reduce((sum, candidate) => sum + candidate.pixel.x, 0) / group.entries.length;
+      const centerY = group.entries.reduce((sum, candidate) => sum + candidate.pixel.y, 0) / group.entries.length;
+      const dx = centerX - entry.pixel.x;
+      const dy = centerY - entry.pixel.y;
+      return Math.hypot(dx, dy) <= thresholdPx;
+    });
 
     if (matchingGroup) {
       matchingGroup.entries.push(entry);
@@ -968,11 +968,11 @@ function renderPoints(targetPoints = points) {
       const nearbyGroups =
         buildScreenGroups(
           activePoints,
-          currentZoom < 15 ? 180 : currentZoom < 17 ? 140 : 112
+          currentZoom < 10 ? 44 : currentZoom < 11.5 ? 36 : currentZoom < 13 ? 28 : 22
         ).filter((group) => group.length > 0) ||
         buildNearbyGroups(
           activePoints,
-          currentZoom < 15 ? 0.28 : currentZoom < 17 ? 0.18 : 0.1
+          currentZoom < 10 ? 0.08 : currentZoom < 11.5 ? 0.055 : currentZoom < 13 ? 0.035 : 0.02
         );
       const renderedPointIds = new Set();
 
